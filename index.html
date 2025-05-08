@@ -5,69 +5,225 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>itd0sh1eld</title>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1b2a; /* Fondo azul oscuro */
-      color: #ffffff;
-      overflow-x: hidden;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .header {
-      background: #1b263b; /* Azul más claro para el header */
-      padding: 20px;
-      text-align: center;
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0f0d;
+      color: #00ff00;
+      overflow-x: hidden;
       position: relative;
     }
-    .header::before {
-      content: '';
+    /* Fondo con partículas animadas */
+    canvas#bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.2;
+    }
+    .header {
+      background: rgba(10, 15, 13, 0.9);
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      border-bottom: 2px solid #00ff00;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    }
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      color: #00ff00;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      position: relative;
+      display: inline-block;
+    }
+    /* Efecto glitch en el logo */
+    .logo.glitch {
+      animation: glitch 2s linear infinite;
+    }
+    @keyframes glitch {
+      2%, 64% {
+        transform: translate(2px, 0) skew(5deg);
+      }
+      4%, 60% {
+        transform: translate(-2px, 0) skew(-5deg);
+      }
+      62% {
+        transform: translate(0, 0) skew(0);
+      }
+    }
+    .logo::before, .logo::after {
+      content: 'itd0sh1eld';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="50" cy="50" r="1" fill="white" opacity="0.5"/><circle cx="150" cy="30" r="1" fill="white" opacity="0.5"/><circle cx="300" cy="70" r="1" fill="white" opacity="0.5"/><circle cx="500" cy="20" r="1" fill="white" opacity="0.5"/><circle cx="700" cy="60" r="1" fill="white" opacity="0.5"/></svg>') repeat;
-      opacity: 0.3;
+      color: #ff00ff;
+      opacity: 0.7;
     }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #4da8da; /* Azul claro para el logo */
+    .logo::before {
+      animation: glitch-top 1s linear infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    }
+    .logo::after {
+      animation: glitch-bottom 1.5s linear infinite;
+      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    }
+    @keyframes glitch-top {
+      2%, 64% {
+        transform: translate(3px, -1px);
+      }
+      4%, 60% {
+        transform: translate(-3px, 1px);
+      }
+      62% {
+        transform: translate(0, 0);
+      }
+    }
+    @keyframes glitch-bottom {
+      2%, 64% {
+        transform: translate(-3px, 0);
+      }
+      4%, 60% {
+        transform: translate(3px, 0);
+      }
+      62% {
+        transform: translate(0, 0);
+      }
     }
     .welcome {
-      font-size: 14px;
-      margin: 10px 0;
-      color: #b0c4de; /* Azul grisáceo para el texto */
+      font-size: 16px;
+      margin: 15px 0;
+      color: #00cc00;
+      text-shadow: 0 0 5px #00ff00;
+      animation: flicker 3s infinite;
+    }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.5;
+      }
     }
     .nav {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
-      padding: 10px 0;
+      gap: 15px;
+      padding: 15px 0;
     }
     .nav a {
-      background: #4169e1; /* Botones en azul medio */
-      color: #ffffff;
+      background: transparent;
+      color: #00ff00;
       padding: 10px 20px;
       text-decoration: none;
-      border-radius: 20px;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
       font-size: 14px;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+      transition: 0.5s;
+    }
+    .nav a:hover::before {
+      left: 100%;
     }
     .nav a:hover {
-      background: #4682b4; /* Azul más claro al pasar el ratón */
+      background: rgba(0, 255, 0, 0.1);
+      box-shadow: 0 0 10px #00ff00;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
+  <canvas id="bgCanvas"></canvas>
   <div class="header">
-    <div class="logo">itd0sh1eld</div>
-    <div class="welcome">Bienvenid@ al mundo de itd0sh1eld</div>
+    <div class="logo glitch">itd0sh1eld</div>
+    <div class="welcome">Acceso autorizado: Bienvenid@ al sistema</div>
     <div class="nav">
       <a href="#">Inicio</a>
       <a href="#">Acerca de mí</a>
       <a href="#">Laboratorios</a>
+      <a href="#">Terminal</a>
     </div>
   </div>
+
+  <script>
+    // Fondo de partículas animadas
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    const particleCount = 100;
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.size > 0.2) this.size -= 0.01;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = '#00ff00';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((particle, index) => {
+        particle.update();
+        particle.draw();
+        if (particle.size <= 0.2) {
+          particles.splice(index, 1);
+          particles.push(new Particle());
+        }
+      });
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
